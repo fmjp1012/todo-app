@@ -1,0 +1,35 @@
+@*
+*
+* to do sample project
+*
+*@
+
+@import lib.persistence.db.TodoTable
+@(vv: model.ViewValueCommon, todos: Seq[TodoTable#TableElementType])
+  @common.Default(vv){
+    <h1>Todo一覧</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>category_id</th>
+          <th>title</th>
+          <th>body</th>
+          <th>updated_at</th>
+          <th>created_at</th>
+        </tr>
+      </thead>
+      <tbody>
+      @for(todo <- todos) {
+        <tr>
+          <td>@todo.id</td>
+          <td>@todo.category_id</td>
+          <td>@todo.title</td>
+          <td>@todo.body</td>
+          <td>@todo.updatedAt</td>
+          <td>@todo.createdAt</td>
+        </tr>
+      }
+      </tbody>
+    </table>
+  }
