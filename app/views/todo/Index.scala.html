@@ -5,28 +5,25 @@
 *@
 
 @import lib.persistence.db.TodoTable
-@(vv: model.ViewValueCommon, todos: Seq[TodoTable#TableElementType])
+@import lib.model.Todo
+@(vv: model.ViewValueCommon, todos: Seq[(String, String, Todo.Status, String)])
   @common.Default(vv){
     <table>
       <thead>
         <tr>
-          <th>id</th>
-          <th>category_id</th>
           <th>title</th>
           <th>body</th>
-          <th>updated_at</th>
-          <th>created_at</th>
+          <th>state</th>
+          <th>category_name</th>
         </tr>
       </thead>
       <tbody>
       @for(todo <- todos) {
         <tr>
-          <td>@todo.id</td>
-          <td>@todo.category_id</td>
-          <td>@todo.title</td>
-          <td>@todo.body</td>
-          <td>@todo.updatedAt</td>
-          <td>@todo.createdAt</td>
+          <td>@todo._1</td>
+          <td>@todo._2</td>
+          <td>@todo._3</td>
+          <td>@todo._4</td>
         </tr>
       }
       </tbody>
