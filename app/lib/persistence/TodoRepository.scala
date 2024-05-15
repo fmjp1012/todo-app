@@ -30,22 +30,8 @@ class TodoRepository @Inject() ()(implicit val ec: ExecutionContext) extends Sli
 
   val todoTable = TableQuery[TodoTable]
 
-  /**
-    * Get User Data
-    */
-  def get(): Future[Seq[TodoTable#TableElementType]] = {
+def getAll: Future[Seq[TodoTable#TableElementType]] = {
     slave.run(todoTable.result)
   }
 
-  /**
-    * Add User Data
-   */
-
-  /**
-   * Update User Data
-   */
-
-  /**
-   * Delete User Data
-   */
 }
