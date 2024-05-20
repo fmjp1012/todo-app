@@ -10,7 +10,7 @@ import ixias.slick.SlickRepository
 import ixias.slick.builder.{DatabaseBuilder, HikariConfigBuilder}
 import ixias.slick.jdbc.MySQLProfile.api._
 import ixias.slick.model.DataSourceName
-import lib.model.Todo
+import lib.model.{Todo, TodoCategory}
 import lib.persistence.db.{TodoCategoryTable, TodoTable}
 
 import javax.inject.Inject
@@ -31,12 +31,12 @@ class TodoRepository @Inject()()(implicit val ec: ExecutionContext) extends Slic
   val todoTable = TableQuery[TodoTable]
   val todoCategoryTable = TableQuery[TodoCategoryTable]
 
-def getAll: Future[Seq[(String, String, Todo.Status, String)]] = {
+def getAll: Future[Seq[(Todo, TodoCategory)]] = {
     slave.run(
       (for {
         todo <- todoTable
         todoCategory <- todoCategoryTable if todo.category_id === todoCategory.id
-      } yield (todo.title, todo.body, todo.state, todoCategory.name)
+      } yield (todo, todoCategory)
         ).result
     )
   }
