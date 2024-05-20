@@ -35,7 +35,7 @@ def getAll: Future[Seq[(Todo, TodoCategory)]] = {
     slave.run(
       (for {
         todo <- todoTable
-        todoCategory <- todoCategoryTable if todo.category_id === todoCategory.id
+        todoCategory <- todoCategoryTable if todo.categoryId === todoCategory.id
       } yield (todo, todoCategory)
         ).result
     )

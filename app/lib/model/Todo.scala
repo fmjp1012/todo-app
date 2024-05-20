@@ -12,7 +12,7 @@ import java.time.LocalDateTime
 
 case class Todo(
   id:          Option[Todo.Id],
-  category_id: TodoCategory.Id,
+  categoryId: TodoCategory.Id,
   title:       String,
   body:        String,
   state:       Todo.Status,
