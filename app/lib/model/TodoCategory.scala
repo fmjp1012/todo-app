@@ -25,11 +25,11 @@ object TodoCategory {
   type WithNoId = Entity.WithNoId[Id, TodoCategory]
   type EmbeddedId = Entity.EmbeddedId[Id, TodoCategory]
 
-  sealed abstract class Color(val code: Short, val name: String) extends EnumStatus
+  sealed abstract class Color(val code: Short) extends EnumStatus
   object Color extends EnumStatus.Of[Color] {
-    case object FRONTEND extends Color(code = 1, name = "frontend")
-    case object BACKEND  extends Color(code = 2, name = "backend")
-    case object INFRA    extends Color(code = 3, name = "infra")
+    case object FRONTEND extends Color(code = 1)
+    case object BACKEND  extends Color(code = 2)
+    case object INFRA    extends Color(code = 3)
   }
 
   def categoryColorToCssClass(color: Color): String = color match {
