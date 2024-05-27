@@ -20,7 +20,7 @@
       </thead>
       <tbody>
       @for((todo, todoCategory) <- todos) {
-        <tr class="category-@todoCategory.color">
+        <tr class="@TodoCategory.categoryColorToCssClass(todoCategory.color)">
           <td>@todo.title</td>
           <td>@todo.body</td>
           <td>@todo.state.name</td>

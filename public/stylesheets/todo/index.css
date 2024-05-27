@@ -2,12 +2,12 @@ th, td {
     border: 1px solid black
 }
 
-.category-1 {
+.category-frontend {
     background-color: aqua;
 }
-.category-2 {
+.category-backend {
     background-color: coral;
 }
-.category-3 {
+.category-infra {
     background-color: darkgray;
 }
