@@ -24,21 +24,28 @@ class TodoRepository @Inject()()(implicit val ec: ExecutionContext) extends Slic
       ).build()
     )
   )
+
   val slave: Database = DatabaseBuilder.fromHikariDataSource(
-    new HikariDataSource(HikariConfigBuilder.default(DataSourceName("ixias.db.mysql://slave/to_do")).build())
+    new HikariDataSource(
+      HikariConfigBuilder.default(
+        DataSourceName("ixias.db.mysql://slave/to_do")
+      ).build()
+    )
   )
 
   val todoTable = TableQuery[TodoTable]
   val todoCategoryTable = TableQuery[TodoCategoryTable]
 
-def getAll: Future[Seq[(Todo, TodoCategory)]] = {
+  def getAll: Future[Seq[(Todo, TodoCategory)]] = {
     slave.run(
-      (for {
+      {
+        for {
         todo <- todoTable
         todoCategory <- todoCategoryTable if todo.categoryId === todoCategory.id
-      } yield (todo, todoCategory)
-        ).result
+        } yield (todo, todoCategory)
+      }.result
     )
   }
+
 
 }
