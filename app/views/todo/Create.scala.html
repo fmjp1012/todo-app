@@ -1,0 +1,36 @@
+@*
+*
+* to do sample project
+*
+*@
+@import helper._
+@import model.forms.TodoCreatingInput
+@import lib.model.TodoCategory
+@import lib.model.Todo
+@(
+        vv: model.ViewValueCommon,
+        todoCreatingForm: Form[TodoCreatingInput],
+        todoCategories: Seq[TodoCategory]
+)(implicit request: MessagesRequestHeader)
+
+  @common.Default(vv) {
+    @form(routes.TodoController.create()) {
+      @CSRF.formField
+      @inputText(todoCreatingForm("title"))
+      @textarea(todoCreatingForm("body"))
+      @select(
+        field = todoCreatingForm("categoryId"),
+        options = todoCategories.map(
+          todoCategory => todoCategory.id.get.toString -> todoCategory.name
+        )
+      )
+      @select(
+        field = todoCreatingForm("state"),
+        options = Todo.Status.values.map(status => status.code.toString -> status.name),
+        Symbol("_disabled") -> Todo.Status.values.map(status => status.code.toString)
+        .filterNot(_ == Todo.Status.IS_INACTIVE.code.toString)
+      )
+      <input type="submit" value="作成する">
+    }
+    <a href="/todos">Todo一覧</a>
+  }

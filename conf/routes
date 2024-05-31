@@ -6,7 +6,8 @@
 # An example controller showing a sample home page
 GET     /                             controllers.HomeController.index()
 GET     /todos                        controllers.TodoController.index()
-GET     /todo/create                  controllers.TodoController.createForm()
+GET     /todos/create                 controllers.TodoController.createForm()
+POST    /todos                        controllers.TodoController.create()
 
 
 # Map static resources from the /public folder to the /assets URL path
