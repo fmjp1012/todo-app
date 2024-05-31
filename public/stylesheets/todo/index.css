@@ -1,0 +1,15 @@
+th, td {
+    border: 1px solid black
+}
+
+.category-frontend {
+    background-color: aqua;
+}
+
+.category-backend {
+    background-color: coral;
+}
+
+.category-infra {
+    background-color: darkgray;
+}
