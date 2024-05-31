@@ -5,9 +5,11 @@ th, td {
 .category-frontend {
     background-color: aqua;
 }
+
 .category-backend {
     background-color: coral;
 }
+
 .category-infra {
     background-color: darkgray;
 }

@@ -3,12 +3,11 @@
 * to do sample project
 *
 *@
-
 @import lib.persistence.db.TodoTable
 @import lib.model.Todo
 @import lib.model.TodoCategory
 @(vv: model.ViewValueCommon, todos: Seq[(Todo, TodoCategory)])
-  @common.Default(vv){
+  @common.Default(vv) {
     <table>
       <thead>
         <tr>
@@ -20,7 +19,7 @@
       </thead>
       <tbody>
       @for((todo, todoCategory) <- todos) {
-        <tr class="@TodoCategory.categoryColorToCssClass(todoCategory.color)">
+        <tr class="@todoCategory.color.toCssClass">
           <td>@todo.title</td>
           <td>@todo.body</td>
           <td>@todo.state.name</td>

@@ -40,8 +40,8 @@ class TodoRepository @Inject()()(implicit val ec: ExecutionContext) extends Slic
     slave.run(
       {
         for {
-        todo <- todoTable
-        todoCategory <- todoCategoryTable if todo.categoryId === todoCategory.id
+          todo <- todoTable
+          todoCategory <- todoCategoryTable if todo.categoryId === todoCategory.id
         } yield (todo, todoCategory)
       }.result
     )
