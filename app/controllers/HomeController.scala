@@ -1,9 +1,8 @@
 package controllers
 
-import javax.inject._
 import play.api.mvc._
 
-import model.ViewValueHome
+import javax.inject._
 
 @Singleton
 class HomeController @Inject()(val controllerComponents: ControllerComponents) extends BaseController {
