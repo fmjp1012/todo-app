@@ -1,9 +1,3 @@
-/**
- *
- * to do sample project
- *
- */
-
 package controllers
 
 import javax.inject._

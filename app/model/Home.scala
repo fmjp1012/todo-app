@@ -1,9 +1,3 @@
-/**
- *
- * to do sample project
- *
- */
-
 package model
 
 // Topページのviewvalue
