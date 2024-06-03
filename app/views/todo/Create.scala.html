@@ -1,14 +1,12 @@
 @import helper._
 @import model.forms.TodoCreatingInput
-@import lib.model.TodoCategory
-@import lib.model.Todo
+@import model.{Todo, TodoCategory, ViewValueCommon}
 @(
-        vv: model.ViewValueCommon,
         todoCreatingForm: Form[TodoCreatingInput],
         todoCategories: Seq[TodoCategory]
 )(implicit request: MessagesRequestHeader)
 
-  @common.Default(vv) {
+  @common.Default(ViewValueCommon(title = "Todo作成", cssSrc = Seq("main.css"), jsSrc = Seq("main.js"))) {
     @form(routes.TodoController.create()) {
       @CSRF.formField
       @inputText(todoCreatingForm("title"))
@@ -27,5 +25,4 @@
       )
       <input type="submit" value="作成する">
     }
-    <a href="/todos">Todo一覧</a>
   }

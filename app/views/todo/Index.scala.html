@@ -1,27 +1,24 @@
-@import lib.persistence.db.TodoTable
-@import lib.model.Todo
-@import lib.model.TodoCategory
-@(vv: model.ViewValueCommon, todos: Seq[(Todo, TodoCategory)])
-  @common.Default(vv) {
-    <table>
-      <thead>
-        <tr>
-          <th>title</th>
-          <th>body</th>
-          <th>state</th>
-          <th>category_name</th>
-        </tr>
-      </thead>
-      <tbody>
-      @for((todo, todoCategory) <- todos) {
-        <tr class="@todoCategory.color.toCssClass">
-          <td>@todo.title</td>
-          <td>@todo.body</td>
-          <td>@todo.state.name</td>
-          <td>@todoCategory.name</td>
-        </tr>
-      }
-      </tbody>
-    </table>
-    <a href="/todos/create">Todo作成</a>
-  }
+@import model.{Todo, TodoCategory, ViewValueCommon}
+@(todos: Seq[(Todo, TodoCategory)])
+@common.Default(ViewValueCommon(title = "Todo一覧", cssSrc = Seq("main.css", "todo/index.css"), jsSrc = Seq("main.js"))) {
+  <table>
+    <thead>
+      <tr>
+        <th>title</th>
+        <th>body</th>
+        <th>state</th>
+        <th>category_name</th>
+      </tr>
+    </thead>
+    <tbody>
+    @for((todo, todoCategory) <- todos) {
+      <tr class="@todoCategory.color.toCssClass">
+        <td>@todo.title</td>
+        <td>@todo.body</td>
+        <td>@todo.state.name</td>
+        <td>@todoCategory.name</td>
+      </tr>
+    }
+    </tbody>
+  </table>
+}
