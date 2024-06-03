@@ -12,12 +12,14 @@ import scala.concurrent.ExecutionContext.Implicits.global
 @Singleton
 class TodoController @Inject()(val controllerComponents: ControllerComponents, todoRepository: TodoRepository) extends BaseController {
 
-  def index() = Action.async { implicit req =>
-    val vv = ViewValueHome(
-      title  = "Todo一覧",
-      cssSrc = Seq("main.css", "todo/index.css"),
-      jsSrc  = Seq("main.js")
-    )
-    todoRepository.getAll.map(todos => Ok(views.html.todo.Index(vv, todos)))
+  val todoCreatingForm: Form[TodoCreatingInput] = TodoCreatingForm.todoCreatingForm
+
+  def index() = Action.async {
+    todoRepository.getAll.map(todos => Ok(views.html.todo.Index(todos)))
+  }
+
+  def createForm() = Action.async { implicit request: MessagesRequest[AnyContent] =>
+    todoCategoryRepository.getAll.map(todoCategories => Ok(views.html.todo.Create(todoCreatingForm, todoCategories)))
+  }
   }
 }
