@@ -38,33 +38,23 @@ class TodoRepositoryImpl @Inject() ()(implicit val ec: ExecutionContext)
   val todoTable         = TableQuery[TodoTable]
   val todoCategoryTable = TableQuery[TodoCategoryTable]
 
-  def getAll: Future[Seq[(Todo, TodoCategory)]] = {
-    slave.run(
-      {
-        for {
-          todo         <- todoTable
-          todoCategory <- todoCategoryTable if todo.categoryId === todoCategory.id
-        } yield (todo, todoCategory)
-      }.result
-    )
-  }
-
-  def insert(newTodo: Todo): Future[Int] = {
-    master.run(
-      todoTable.map(todo =>
-        (
-          todo.title,
-          todo.body,
-          todo.categoryId,
-          todo.state
-        )
-      ) += (
-        newTodo.title,
-        newTodo.body,
-        newTodo.categoryId,
-        newTodo.state
+  def getAll: Future[Seq[(Todo#EmbeddedId, TodoCategory#EmbeddedId)]] = {
+    slave
+      .run(
+        {
+          for {
+            todo         <- todoTable
+            todoCategory <- todoCategoryTable if todo.categoryId === todoCategory.id
+          } yield (todo, todoCategory)
+        }.result
       )
-    )
+      .map(_.map { case (todo, todoCategory) =>
+        (todo.toEmbeddedId, todoCategory.toEmbeddedId)
+      })
+
   }
 
+  def insert(newTodo: Todo#WithNoId): Future[Todo.Id] = {
+    master.run(todoTable returning todoTable.map(_.id) += newTodo)
+  }
 }

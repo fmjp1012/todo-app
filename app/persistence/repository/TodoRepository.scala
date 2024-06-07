@@ -6,6 +6,6 @@ import model.{Todo, TodoCategory}
 import scala.concurrent.Future
 
 trait TodoRepository extends SlickRepository[Todo.Id, Todo] {
-  def getAll: Future[Seq[(Todo, TodoCategory)]]
-  def insert(newTodo: Todo): Future[Int]
+  def getAll: Future[Seq[(Todo#EmbeddedId, TodoCategory#EmbeddedId)]]
+  def insert(newTodo: Todo#WithNoId): Future[Todo.Id]
 }

@@ -1,7 +1,6 @@
 package persistence.repository.impl
 
 import com.zaxxer.hikari.HikariDataSource
-import ixias.model.tag
 import ixias.slick.SlickRepository
 import ixias.slick.builder.{DatabaseBuilder, HikariConfigBuilder}
 import ixias.slick.jdbc.MySQLProfile.api._
@@ -42,12 +41,14 @@ class TodoCategoryRepositoryImpl @Inject() ()(implicit val ec: ExecutionContext)
     slave.run(todoCategoryTable.result)
   }
 
-  def findById(id: Long): Future[Option[TodoCategory]] = {
-    slave.run(
-      todoCategoryTable
-        .filter(_.id === tag[TodoCategory][Long](id))
-        .result
-        .headOption
-    )
+  def findById(id: TodoCategory.Id): Future[Option[TodoCategory.EmbeddedId]] = {
+    slave
+      .run(
+        todoCategoryTable
+          .filter(_.id === id)
+          .result
+          .headOption
+      )
+      .map(_.map(_.toEmbeddedId))
   }
 }

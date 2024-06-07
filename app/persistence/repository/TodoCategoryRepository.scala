@@ -6,5 +6,5 @@ import scala.concurrent.Future
 
 trait TodoCategoryRepository {
   def getAll: Future[Seq[TodoCategory]]
-  def findById(id: Long): Future[Option[TodoCategory]]
+  def findById(id: TodoCategory.Id): Future[Option[TodoCategory.EmbeddedId]]
 }
