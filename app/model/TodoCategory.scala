@@ -20,8 +20,6 @@ object TodoCategory {
   type WithNoId   = Entity.WithNoId[Id, TodoCategory]
   type EmbeddedId = Entity.EmbeddedId[Id, TodoCategory]
 
-  def exists(categoryId: Long): Boolean = ???
-
   sealed abstract class Color(val code: Short) extends EnumStatus           {
     def toCssClass: String
   }
