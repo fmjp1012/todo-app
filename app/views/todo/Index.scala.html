@@ -1,5 +1,5 @@
 @import model.{Todo, TodoCategory, ViewValueCommon}
-@(todos: Seq[(Todo, TodoCategory)])
+@(todos: Seq[(Todo#EmbeddedId, TodoCategory#EmbeddedId)])
 @common.Default(ViewValueCommon(title = "Todo一覧", cssSrc = Seq("main.css", "todo/index.css"), jsSrc = Seq("main.js"))) {
   <table>
     <thead>
@@ -12,11 +12,11 @@
     </thead>
     <tbody>
     @for((todo, todoCategory) <- todos) {
-      <tr class="@todoCategory.color.toCssClass">
-        <td>@todo.title</td>
-        <td>@todo.body</td>
-        <td>@todo.state.name</td>
-        <td>@todoCategory.name</td>
+      <tr class="@todoCategory.v.color.toCssClass">
+        <td>@todo.v.title</td>
+        <td>@todo.v.body</td>
+        <td>@todo.v.state.name</td>
+        <td>@todoCategory.v.name</td>
       </tr>
     }
     </tbody>
