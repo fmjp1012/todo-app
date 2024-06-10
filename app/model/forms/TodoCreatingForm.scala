@@ -8,10 +8,10 @@ import play.api.data.Forms._
 import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
 
 case class TodoCreatingInput(
-    categoryId: Long,
+    categoryId: TodoCategory.Id,
     title:      String,
     body:       String,
-    state:      Short
+    state:      Todo.Status
 )
 
 object TodoCreatingForm {
@@ -34,11 +34,10 @@ object TodoCreatingForm {
 
   val todoCreatingForm: Form[TodoCreatingInput] = Form(
     mapping(
-      "categoryId" -> longNumber,
+      "categoryId" -> longNumber.transform(TodoCategory.Id(_), (id: TodoCategory.Id) => id),
       "title"      -> nonEmptyText(maxLength = 30).verifying(titleConstraint),
       "body"       -> nonEmptyText(maxLength = 140),
-      "state"      -> shortNumber.verifying(stateConstraint)
-    )(TodoCreatingInput.apply)(TodoCreatingInput.unapply).verifying(
-    )
+      "state"      -> shortNumber.verifying(stateConstraint).transform(Todo.Status(_), (state: Todo.Status) => state.code)
+    )(TodoCreatingInput.apply)(TodoCreatingInput.unapply)
   )
 }

@@ -1,7 +1,7 @@
 package controllers
 
+import model.Todo
 import model.forms.{TodoCreatingForm, TodoCreatingInput}
-import model.{Todo, TodoCategory}
 import persistence.repository.impl.{TodoCategoryRepositoryImpl, TodoRepositoryImpl}
 import play.api.data.Form
 import play.api.mvc._
@@ -38,16 +38,32 @@ class TodoController @Inject() (
           )
         },
         todoCreatingInput => {
-          val newTodo: Todo#WithNoId = Todo(
-            None,
-            TodoCategory.Id(todoCreatingInput.categoryId),
-            todoCreatingInput.title,
-            todoCreatingInput.body,
-            Todo.Status(todoCreatingInput.state)
-          ).toWithNoId
-          todoRepository
-            .insert(newTodo)
-            .map(_ => Redirect(routes.TodoController.index()))
+          todoCategoryRepository
+            .findById(todoCreatingInput.categoryId)
+            .flatMap {
+              case None               =>
+                todoCategoryRepository.getAll.map(todoCategories =>
+                  BadRequest(
+                    views.html.todo.Create(
+                      todoCreatingForm.withError("categoryId", "Invalid Todo Category Id"),
+                      todoCategories
+                    )
+                  )
+                )
+              case Some(todoCategory) => {
+                val newTodo: Todo#WithNoId = Todo(
+                  None,
+                  todoCategory.id,
+                  todoCreatingInput.title,
+                  todoCreatingInput.body,
+                  todoCreatingInput.state
+                ).toWithNoId
+
+                todoRepository
+                  .insert(newTodo)
+                  .map(_ => Redirect(routes.TodoController.index()))
+              }
+            }
         }
       )
   }
