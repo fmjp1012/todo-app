@@ -55,6 +55,6 @@ class TodoRepositoryImpl @Inject() ()(implicit val ec: ExecutionContext)
   }
 
   def insert(newTodo: Todo#WithNoId): Future[Todo.Id] = {
-    master.run(todoTable returning todoTable.map(_.id) += newTodo)
+    master.run(todoTable returning todoTable.map(_.id) += newTodo.v)
   }
 }
