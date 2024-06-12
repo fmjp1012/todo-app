@@ -87,13 +87,16 @@ class TodoController @Inject() (
           }
         },
         todoEditingInput => {
-          todoRepository.findById(Todo.Id(id)) zip todoCategoryRepository
-            .findById(todoEditingInput.categoryId) flatMap {
-            case (None, _)                        => Future.successful(NotFound)
-            case (_, None)                        =>
-              todoRepository.findById(Todo.Id(id)) zip todoCategoryRepository.getAll map {
-                case (None, _)                    => NotFound
-                case (Some(todo), todoCategories) =>
+          todoRepository
+            .findById(Todo.Id(id))
+            .zip(
+              todoCategoryRepository
+                .findById(todoEditingInput.categoryId)
+            )
+            .flatMap {
+              case (None, _)                        => Future.successful(NotFound)
+              case (Some(todo), None)               =>
+                todoCategoryRepository.getAll map { todoCategories =>
                   BadRequest(
                     views.html.todo.Edit(
                       todoEditingForm.fill(TodoEditingInput(todo)).withError("categoryId", "Invalid Todo Category Id"),
@@ -101,24 +104,22 @@ class TodoController @Inject() (
                       todoCategories
                     )
                   )
+                }
+              case (Some(todo), Some(todoCategory)) => {
+                val editedTodo: Todo#EmbeddedId = Todo(
+                  Some(todo.v.id.get),
+                  todoCategory.id,
+                  todoEditingInput.title,
+                  todoEditingInput.body,
+                  todoEditingInput.state
+                ).toEmbeddedId
+
+                todoRepository
+                  .update(editedTodo)
+                  .map(_ => Redirect(routes.TodoController.index()))
               }
-            case (Some(todo), Some(todoCategory)) => {
-              val editedTodo: Todo#EmbeddedId = Todo(
-                Some(todo.v.id.get),
-                todoCategory.id,
-                todoEditingInput.title,
-                todoEditingInput.body,
-                todoEditingInput.state
-              ).toEmbeddedId
-
-              todoRepository
-                .update(editedTodo)
-                .map(_ => Redirect(routes.TodoController.index()))
             }
-          }
-
         }
       )
   }
-
 }
