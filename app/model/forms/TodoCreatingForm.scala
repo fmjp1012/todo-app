@@ -1,8 +1,6 @@
 package model.forms
 
-import com.google.inject.Inject
 import model.{Todo, TodoCategory}
-import persistence.repository.TodoCategoryRepository
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
