@@ -57,4 +57,21 @@ class TodoRepositoryImpl @Inject() ()(implicit val ec: ExecutionContext)
   def insert(newTodo: Todo#WithNoId): Future[Todo.Id] = {
     master.run(todoTable returning todoTable.map(_.id) += newTodo.v)
   }
+
+  def findById(id: Todo.Id): Future[Option[Todo.EmbeddedId]] = {
+    slave
+      .run(
+        todoTable
+          .filter(_.id === id)
+          .result
+          .headOption
+      )
+      .map(_.map(_.toEmbeddedId))
+  }
+
+  def update(editedTodo: Todo#EmbeddedId): Future[Todo.Id] = {
+    master.run(
+      todoTable.filter(_.id === editedTodo.v.id).update(editedTodo.v).map(Todo.Id(_))
+    )
+  }
 }
