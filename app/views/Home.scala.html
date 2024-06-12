@@ -1,13 +1,7 @@
-@*
- *
- * to do sample project
- *
- *@
-
-@(vv: model.ViewValueCommon)
-@common.Default(vv){
-   <ul>
+@common.Default(ViewValueCommon(title = "Todo", cssSrc = Seq("main.css"), jsSrc = Seq("main.js"))) {
+  <ul>
     <li><a>カテゴリー一覧</a></li>
     <li><a href="/todos">Todo一覧</a></li>
- </ul>
-}
+    <li><a href="/todos/create">Todo作成</a></li>
+  </ul>
+} @import model.ViewValueCommon
