@@ -9,7 +9,7 @@ GET         /todos                 controllers.TodoController.index()
 GET         /todos/create          controllers.TodoController.createForm()
 POST        /todos                 controllers.TodoController.create()
 GET         /todos/edit/:id        controllers.TodoController.editForm(id: Long)
-POST         /todos/edit/:id        controllers.TodoController.edit(id: Long)
+POST        /todos/edit/:id        controllers.TodoController.edit(id: Long)
 
 
 # Map static resources from the /public folder to the /assets URL path
