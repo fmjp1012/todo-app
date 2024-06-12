@@ -1,9 +1,8 @@
 package controllers
 
 import model.Todo
-import model.forms.{TodoCreatingForm, TodoCreatingInput}
+import model.forms.TodoCreatingForm.todoCreatingForm
 import persistence.repository.impl.{TodoCategoryRepositoryImpl, TodoRepositoryImpl}
-import play.api.data.Form
 import play.api.mvc._
 
 import javax.inject._
@@ -15,8 +14,6 @@ class TodoController @Inject() (
     todoRepository:         TodoRepositoryImpl,
     todoCategoryRepository: TodoCategoryRepositoryImpl
 ) extends MessagesAbstractController(mcc) {
-
-  val todoCreatingForm: Form[TodoCreatingInput] = TodoCreatingForm.todoCreatingForm
 
   def index() = Action.async {
     todoRepository.getAll.map(todos => Ok(views.html.todo.Index(todos)))
