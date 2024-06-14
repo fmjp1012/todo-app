@@ -99,7 +99,7 @@ class TodoController @Inject() (
                 todoCategoryRepository.getAll map { todoCategories =>
                   BadRequest(
                     views.html.todo.Edit(
-                      todoEditingForm.fill(TodoEditingInput(todo)).withError("categoryId", "Invalid Todo Category Id"),
+                      todoEditingForm.fill(todoEditingInput).withError("categoryId", "Invalid Todo Category Id"),
                       todo,
                       todoCategories
                     )
