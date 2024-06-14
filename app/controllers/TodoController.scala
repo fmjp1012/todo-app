@@ -4,7 +4,7 @@ import model.Todo
 import model.forms.TodoCreatingForm.todoCreatingForm
 import model.forms.TodoEditingForm.todoEditingForm
 import model.forms.TodoEditingInput
-import persistence.repository.impl.{TodoCategoryRepositoryImpl, TodoRepositoryImpl}
+import persistence.repository.impl.{ TodoCategoryRepositoryImpl, TodoRepositoryImpl }
 import play.api.mvc._
 
 import javax.inject._
@@ -13,9 +13,9 @@ import scala.concurrent.Future
 
 @Singleton
 class TodoController @Inject() (
-    mcc:                    MessagesControllerComponents,
-    todoRepository:         TodoRepositoryImpl,
-    todoCategoryRepository: TodoCategoryRepositoryImpl
+  mcc:                    MessagesControllerComponents,
+  todoRepository:         TodoRepositoryImpl,
+  todoCategoryRepository: TodoCategoryRepositoryImpl
 ) extends MessagesAbstractController(mcc) {
 
   def index() = Action.async {
@@ -26,7 +26,7 @@ class TodoController @Inject() (
     todoCategoryRepository.getAll.map(todoCategories => Ok(views.html.todo.Create(todoCreatingForm, todoCategories)))
   }
 
-  def create()           = Action.async { implicit request: MessagesRequest[AnyContent] =>
+  def create() = Action.async { implicit request: MessagesRequest[AnyContent] =>
     todoCreatingForm
       .bindFromRequest()
       .fold(
