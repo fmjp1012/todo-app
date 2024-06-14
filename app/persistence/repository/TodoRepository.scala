@@ -10,4 +10,5 @@ trait TodoRepository extends SlickRepository[Todo.Id, Todo] {
   def insert(newTodo: Todo#WithNoId): Future[Todo.Id]
   def findById(id: Todo.Id): Future[Option[Todo#EmbeddedId]]
   def update(editedTodo: Todo#EmbeddedId): Future[Todo.Id]
+  def delete(todo: Todo#EmbeddedId): Future[Todo.Id]
 }
