@@ -4,7 +4,7 @@ import model.Todo
 import model.forms.TodoCreatingForm.todoCreatingForm
 import model.forms.TodoEditingForm.todoEditingForm
 import model.forms.TodoEditingInput
-import persistence.repository.impl.{TodoCategoryRepositoryImpl, TodoRepositoryImpl}
+import persistence.repository.impl.{ TodoCategoryRepositoryImpl, TodoRepositoryImpl }
 import play.api.mvc._
 
 import javax.inject._
@@ -121,5 +121,12 @@ class TodoController @Inject() (
             }
         }
       )
+  }
+
+  def remove(id: Long) = Action.async { implicit request: MessagesRequest[AnyContent] =>
+    todoRepository.findById(Todo.Id(id)) flatMap {
+      case None       => Future.successful(NotFound)
+      case Some(todo) => todoRepository.delete(todo).map(_ => Redirect(routes.TodoController.index()))
+    }
   }
 }

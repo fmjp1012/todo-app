@@ -18,6 +18,7 @@
         <td>@todo.v.state.name</td>
         <td>@todoCategory.v.name</td>
         <td><a href="@routes.TodoController.editForm(todo.v.id.get)">更新</a></td>
+        <td><a href="@routes.TodoController.remove(todo.v.id.get)">削除</a></td>
       </tr>
     }
     </tbody>
