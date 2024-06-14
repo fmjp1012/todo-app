@@ -4,7 +4,7 @@ import model.Todo
 import model.forms.TodoCreatingForm.todoCreatingForm
 import model.forms.TodoEditingForm.todoEditingForm
 import model.forms.TodoEditingInput
-import persistence.repository.impl.{ TodoCategoryRepositoryImpl, TodoRepositoryImpl }
+import persistence.repository.impl.{TodoCategoryRepositoryImpl, TodoRepositoryImpl}
 import play.api.mvc._
 
 import javax.inject._
