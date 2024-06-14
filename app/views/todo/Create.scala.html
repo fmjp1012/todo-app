@@ -3,7 +3,7 @@
 @import model.{Todo, TodoCategory, ViewValueCommon}
 @(
         todoCreatingForm: Form[TodoCreatingInput],
-        todoCategories: Seq[TodoCategory]
+        todoCategories: Seq[TodoCategory#EmbeddedId]
 )(implicit request: MessagesRequestHeader)
 
 @common.Default(ViewValueCommon(title = "Todo作成", cssSrc = Seq("main.css"), jsSrc = Seq("main.js"))) {
@@ -14,7 +14,7 @@
     @select(
       field = todoCreatingForm("categoryId"),
       options = todoCategories.map(
-        todoCategory => todoCategory.id.get.toString -> todoCategory.name
+        todoCategory => todoCategory.id.toString -> todoCategory.v.name
       )
     )
     @select(

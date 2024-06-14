@@ -37,8 +37,8 @@ class TodoCategoryRepositoryImpl @Inject() ()(implicit val ec: ExecutionContext)
 
   private val todoCategoryTable = TableQuery[TodoCategoryTable]
 
-  def getAll: Future[Seq[TodoCategory]] = {
-    slave.run(todoCategoryTable.result)
+  def getAll: Future[Seq[TodoCategory#EmbeddedId]] = {
+    slave.run(todoCategoryTable.result).map(_.map(_.toEmbeddedId))
   }
 
   def findById(id: TodoCategory.Id): Future[Option[TodoCategory.EmbeddedId]] = {

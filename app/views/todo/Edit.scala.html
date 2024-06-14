@@ -4,18 +4,18 @@
 @(
         todoEditingForm: Form[TodoEditingInput],
         todo: Todo#EmbeddedId,
-        todoCategories: Seq[TodoCategory]
+        todoCategories: Seq[TodoCategory#EmbeddedId]
 )(implicit request: MessagesRequestHeader)
 
 @common.Default(ViewValueCommon(title = "Todo更新", cssSrc = Seq("main.css"), jsSrc = Seq("main.js"))) {
-  @form(routes.TodoController.edit(todo.v.id.get)) {
+  @form(routes.TodoController.edit(todo.id)) {
     @CSRF.formField
     @inputText(todoEditingForm("title"))
     @textarea(todoEditingForm("body"))
     @select(
       field = todoEditingForm("categoryId"),
       options = todoCategories.map(
-        todoCategory => todoCategory.id.get.toString -> todoCategory.name
+        todoCategory => todoCategory.id.toString -> todoCategory.v.name
       )
     )
     @select(

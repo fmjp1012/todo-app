@@ -107,7 +107,7 @@ class TodoController @Inject() (
                 }
               case (Some(todo), Some(todoCategory)) => {
                 val editedTodo: Todo#EmbeddedId = Todo(
-                  Some(todo.v.id.get),
+                  Some(todo.id),
                   todoCategory.id,
                   todoEditingInput.title,
                   todoEditingInput.body,
