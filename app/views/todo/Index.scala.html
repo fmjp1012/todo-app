@@ -1,25 +1,25 @@
 @import model.{Todo, TodoCategory, ViewValueCommon}
 @(todos: Seq[(Todo#EmbeddedId, TodoCategory#EmbeddedId)])
-  @common.Default(ViewValueCommon(title = "Todo一覧", cssSrc = Seq("main.css", "todo/index.css"), jsSrc = Seq("main.js"))) {
-    <table>
-      <thead>
-        <tr>
-          <th>title</th>
-          <th>body</th>
-          <th>state</th>
-          <th>category_name</th>
-        </tr>
-      </thead>
-      <tbody>
-      @for((todo, todoCategory) <- todos) {
-        <tr class="@todoCategory.v.color.toCssClass">
-          <td>@todo.v.title</td>
-          <td>@todo.v.body</td>
-          <td>@todo.v.state.name</td>
-          <td>@todoCategory.v.name</td>
-          <td><a href="/todos/edit/@todo.v.id">更新</a></td>
-        </tr>
-      }
-      </tbody>
-    </table>
-  }
+@common.Default(ViewValueCommon(title = "Todo一覧", cssSrc = Seq("main.css", "todo/index.css"), jsSrc = Seq("main.js"))) {
+  <table>
+    <thead>
+      <tr>
+        <th>title</th>
+        <th>body</th>
+        <th>state</th>
+        <th>category_name</th>
+      </tr>
+    </thead>
+    <tbody>
+    @for((todo, todoCategory) <- todos) {
+      <tr class="@todoCategory.v.color.toCssClass">
+        <td>@todo.v.title</td>
+        <td>@todo.v.body</td>
+        <td>@todo.v.state.name</td>
+        <td>@todoCategory.v.name</td>
+        <td><a href="/todos/edit/@todo.v.id">更新</a></td>
+      </tr>
+    }
+    </tbody>
+  </table>
+}

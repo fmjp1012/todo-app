@@ -2,7 +2,7 @@ package persistence.repository.impl
 
 import com.zaxxer.hikari.HikariDataSource
 import ixias.slick.SlickRepository
-import ixias.slick.builder.{ DatabaseBuilder, HikariConfigBuilder }
+import ixias.slick.builder.{DatabaseBuilder, HikariConfigBuilder}
 import ixias.slick.jdbc.MySQLProfile.api._
 import ixias.slick.model.DataSourceName
 import model.TodoCategory
@@ -10,7 +10,7 @@ import persistence.db.TodoCategoryTable
 import persistence.repository.TodoCategoryRepository
 
 import javax.inject.Inject
-import scala.concurrent.{ ExecutionContext, Future }
+import scala.concurrent.{ExecutionContext, Future}
 
 class TodoCategoryRepositoryImpl @Inject() ()(implicit val ec: ExecutionContext)
   extends SlickRepository[TodoCategory.Id, TodoCategory]

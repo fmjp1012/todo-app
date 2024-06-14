@@ -6,23 +6,23 @@
         todoCategories: Seq[TodoCategory]
 )(implicit request: MessagesRequestHeader)
 
-  @common.Default(ViewValueCommon(title = "Todo作成", cssSrc = Seq("main.css"), jsSrc = Seq("main.js"))) {
-    @form(routes.TodoController.create()) {
-      @CSRF.formField
-      @inputText(todoCreatingForm("title"))
-      @textarea(todoCreatingForm("body"))
-      @select(
-        field = todoCreatingForm("categoryId"),
-        options = todoCategories.map(
-          todoCategory => todoCategory.id.get.toString -> todoCategory.name
-        )
+@common.Default(ViewValueCommon(title = "Todo作成", cssSrc = Seq("main.css"), jsSrc = Seq("main.js"))) {
+  @form(routes.TodoController.create()) {
+    @CSRF.formField
+    @inputText(todoCreatingForm("title"))
+    @textarea(todoCreatingForm("body"))
+    @select(
+      field = todoCreatingForm("categoryId"),
+      options = todoCategories.map(
+        todoCategory => todoCategory.id.get.toString -> todoCategory.name
       )
-      @select(
-        field = todoCreatingForm("state"),
-        options = Todo.Status.values.map(status => status.code.toString -> status.name),
-        Symbol("_disabled") -> Todo.Status.values.map(status => status.code.toString)
-        .filterNot(_ == Todo.Status.IS_INACTIVE.code.toString)
-      )
-      <input type="submit" value="作成する">
-    }
+    )
+    @select(
+      field = todoCreatingForm("state"),
+      options = Todo.Status.values.map(status => status.code.toString -> status.name),
+      Symbol("_disabled") -> Todo.Status.values.map(status => status.code.toString)
+      .filterNot(_ == Todo.Status.IS_INACTIVE.code.toString)
+    )
+    <input type="submit" value="作成する">
   }
+}

@@ -2,15 +2,15 @@ package persistence.repository.impl
 
 import com.zaxxer.hikari.HikariDataSource
 import ixias.slick.SlickRepository
-import ixias.slick.builder.{ DatabaseBuilder, HikariConfigBuilder }
+import ixias.slick.builder.{DatabaseBuilder, HikariConfigBuilder}
 import ixias.slick.jdbc.MySQLProfile.api._
 import ixias.slick.model.DataSourceName
-import model.{ Todo, TodoCategory }
-import persistence.db.{ TodoCategoryTable, TodoTable }
+import model.{Todo, TodoCategory}
+import persistence.db.{TodoCategoryTable, TodoTable}
 import persistence.repository.TodoRepository
 
 import javax.inject.Inject
-import scala.concurrent.{ ExecutionContext, Future }
+import scala.concurrent.{ExecutionContext, Future}
 
 class TodoRepositoryImpl @Inject() ()(implicit val ec: ExecutionContext)
   extends SlickRepository[Todo.Id, Todo]

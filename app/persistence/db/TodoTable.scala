@@ -1,7 +1,7 @@
 package persistence.db
 
 import ixias.slick.jdbc.MySQLProfile.api._
-import model.{ Todo, TodoCategory }
+import model.{Todo, TodoCategory}
 
 import java.time.LocalDateTime
 

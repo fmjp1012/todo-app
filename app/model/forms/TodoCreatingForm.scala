@@ -1,9 +1,9 @@
 package model.forms
 
-import model.{ Todo, TodoCategory }
+import model.{Todo, TodoCategory}
 import play.api.data.Form
 import play.api.data.Forms._
-import play.api.data.validation.{ Constraint, Invalid, Valid, ValidationError }
+import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
 
 case class TodoCreatingInput(
   categoryId: TodoCategory.Id,
