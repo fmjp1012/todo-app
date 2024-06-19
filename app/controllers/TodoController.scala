@@ -19,11 +19,15 @@ class TodoController @Inject() (
 ) extends MessagesAbstractController(mcc) {
 
   def index() = Action.async {
-    todoRepository.getAll.map(todos => Ok(views.html.todo.Index(todos)))
+    todoRepository.getAll map {
+      todos => Ok(views.html.todo.Index(todos))
+    }
   }
 
   def createForm() = Action.async { implicit request: MessagesRequest[AnyContent] =>
-    todoCategoryRepository.getAll.map(todoCategories => Ok(views.html.todo.Create(todoCreatingForm, todoCategories)))
+    todoCategoryRepository.getAll map {
+      todoCategories => Ok(views.html.todo.Create(todoCreatingForm, todoCategories))
+    }
   }
 
   def create() = Action.async { implicit request: MessagesRequest[AnyContent] =>
@@ -31,39 +35,35 @@ class TodoController @Inject() (
       .bindFromRequest()
       .fold(
         formWithErrors => {
-          todoCategoryRepository.getAll.map(todoCategories =>
-            BadRequest(
-              views.html.todo.Create(formWithErrors, todoCategories)
-            )
-          )
+          todoCategoryRepository.getAll map {
+            todoCategories => BadRequest(views.html.todo.Create(formWithErrors, todoCategories))
+          }
         },
         todoCreatingInput => {
-          todoCategoryRepository
-            .findById(todoCreatingInput.categoryId)
-            .flatMap {
-              case None               =>
-                todoCategoryRepository.getAll.map(todoCategories =>
-                  BadRequest(
-                    views.html.todo.Create(
-                      todoCreatingForm.withError("categoryId", "Invalid Todo Category Id"),
-                      todoCategories
-                    )
+          todoCategoryRepository.findById(todoCreatingInput.categoryId) flatMap {
+            case None               =>
+              todoCategoryRepository.getAll map { todoCategories =>
+                BadRequest(
+                  views.html.todo.Create(
+                    todoCreatingForm.withError("categoryId", "Invalid Todo Category Id"),
+                    todoCategories
                   )
                 )
-              case Some(todoCategory) => {
-                val newTodo: Todo#WithNoId = Todo(
-                  None,
-                  todoCategory.id,
-                  todoCreatingInput.title,
-                  todoCreatingInput.body,
-                  todoCreatingInput.state
-                ).toWithNoId
-
-                todoRepository
-                  .insert(newTodo)
-                  .map(_ => Redirect(routes.TodoController.index()))
               }
+            case Some(todoCategory) => {
+              val newTodo: Todo#WithNoId = Todo(
+                None,
+                todoCategory.id,
+                todoCreatingInput.title,
+                todoCreatingInput.body,
+                todoCreatingInput.state
+              ).toWithNoId
+
+              todoRepository
+                .insert(newTodo)
+                .map(_ => Redirect(routes.TodoController.index()))
             }
+          }
         }
       )
   }
@@ -105,7 +105,7 @@ class TodoController @Inject() (
                     )
                   )
                 }
-              case (Some(todo), Some(todoCategory)) => {
+              case (Some(todo), Some(todoCategory)) =>
                 val editedTodo: Todo#EmbeddedId = Todo(
                   Some(todo.id),
                   todoCategory.id,
@@ -117,7 +117,6 @@ class TodoController @Inject() (
                 todoRepository
                   .update(editedTodo)
                   .map(_ => Redirect(routes.TodoController.index()))
-              }
             }
         }
       )

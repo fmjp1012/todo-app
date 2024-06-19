@@ -39,45 +39,50 @@ class TodoRepositoryImpl @Inject() ()(implicit val ec: ExecutionContext)
   val todoCategoryTable = TableQuery[TodoCategoryTable]
 
   def getAll: Future[Seq[(Todo#EmbeddedId, TodoCategory#EmbeddedId)]] = {
-    slave
-      .run(
-        {
-          for {
-            todo         <- todoTable
-            todoCategory <- todoCategoryTable if todo.categoryId === todoCategory.id
-          } yield (todo, todoCategory)
-        }.result
-      )
-      .map(_.map { case (todo, todoCategory) =>
-        (todo.toEmbeddedId, todoCategory.toEmbeddedId)
-      })
+    slave.run(
+      (
+        for {
+          todo         <- todoTable
+          todoCategory <- todoCategoryTable if todo.categoryId === todoCategory.id
+        } yield (todo, todoCategory)
+      ).result
+    ).map(_.map { case (todo, todoCategory) =>
+      (todo.toEmbeddedId, todoCategory.toEmbeddedId)
+    })
 
-  }
-
-  def insert(newTodo: Todo#WithNoId): Future[Todo.Id] = {
-    master.run(todoTable returning todoTable.map(_.id) += newTodo.v)
   }
 
   def findById(id: Todo.Id): Future[Option[Todo.EmbeddedId]] = {
-    slave
-      .run(
-        todoTable
-          .filter(_.id === id)
-          .result
-          .headOption
-      )
+    slave.run(
+      todoTable
+        .filter(_.id === id)
+        .result
+        .headOption
+    )
       .map(_.map(_.toEmbeddedId))
+  }
+
+  def insert(newTodo: Todo#WithNoId): Future[Todo.Id] = {
+    master.run(
+      todoTable returning todoTable.map(_.id) += newTodo.v
+    )
   }
 
   def update(editedTodo: Todo#EmbeddedId): Future[Todo.Id] = {
     master.run(
-      todoTable.filter(_.id === editedTodo.id).update(editedTodo.v).map(Todo.Id(_))
+      todoTable
+        .filter(_.id === editedTodo.id)
+        .update(editedTodo.v)
+        .map(Todo.Id(_))
     )
   }
 
   def delete(todo: Todo#EmbeddedId): Future[Todo.Id] = {
     master.run(
-      todoTable.filter(_.id === todo.id).delete.map(Todo.Id(_))
+      todoTable
+        .filter(_.id === todo.id)
+        .delete
+        .map(Todo.Id(_))
     )
   }
 }

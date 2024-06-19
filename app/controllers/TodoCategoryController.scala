@@ -18,7 +18,9 @@ class TodoCategoryController @Inject() (
 ) extends MessagesAbstractController(mcc) {
 
   def index() = Action.async {
-    todoCategoryRepository.getAll.map(todoCategories => Ok(views.html.todoCategory.Index(todoCategories)))
+    todoCategoryRepository.getAll map {
+      todoCategories => Ok(views.html.todoCategory.Index(todoCategories))
+    }
   }
 
   def createForm() = Action { implicit request: MessagesRequest[AnyContent] =>
