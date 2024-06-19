@@ -42,13 +42,14 @@ class TodoController @Inject() (
         todoCreatingInput => {
           todoCategoryRepository.findById(todoCreatingInput.categoryId) flatMap {
             case None               =>
-              todoCategoryRepository.getAll map { todoCategories =>
-                BadRequest(
-                  views.html.todo.Create(
-                    todoCreatingForm.withError("categoryId", "Invalid Todo Category Id"),
-                    todoCategories
+              todoCategoryRepository.getAll map {
+                todoCategories =>
+                  BadRequest(
+                    views.html.todo.Create(
+                      todoCreatingForm.withError("categoryId", "Invalid Todo Category Id"),
+                      todoCategories
+                    )
                   )
-                )
               }
             case Some(todoCategory) => {
               val newTodo: Todo#WithNoId = Todo(
@@ -105,7 +106,7 @@ class TodoController @Inject() (
                     )
                   )
                 }
-              case (Some(todo), Some(todoCategory)) =>
+              case (Some(todo), Some(todoCategory)) => {
                 val editedTodo: Todo#EmbeddedId = Todo(
                   Some(todo.id),
                   todoCategory.id,
@@ -117,6 +118,7 @@ class TodoController @Inject() (
                 todoRepository
                   .update(editedTodo)
                   .map(_ => Redirect(routes.TodoController.index()))
+              }
             }
         }
       )
