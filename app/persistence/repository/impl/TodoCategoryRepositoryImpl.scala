@@ -51,4 +51,20 @@ class TodoCategoryRepositoryImpl @Inject() ()(implicit val ec: ExecutionContext)
       )
       .map(_.map(_.toEmbeddedId))
   }
+
+  def insert(newTodoCategory: TodoCategory#WithNoId) = {
+    master.run(todoCategoryTable returning todoCategoryTable.map(_.id) += newTodoCategory.v)
+  }
+
+  def update(editedTodoCategory: TodoCategory#EmbeddedId) = {
+    master.run(
+      todoCategoryTable.filter(_.id === editedTodoCategory.id).update(editedTodoCategory.v).map(TodoCategory.Id(_))
+    )
+  }
+
+  def delete(todoCategory: TodoCategory#EmbeddedId): Future[TodoCategory.Id] = {
+    master.run(
+      todoCategoryTable.filter(_.id === todoCategory.id).delete.map(TodoCategory.Id(_))
+    )
+  }
 }

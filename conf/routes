@@ -4,14 +4,20 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET         /                        controllers.HomeController.index()
-GET         /todos                   controllers.TodoController.index()
-GET         /todos/create            controllers.TodoController.createForm()
-POST        /todos                   controllers.TodoController.create()
-GET         /todos/edit/:id          controllers.TodoController.editForm(id: Long)
-POST        /todos/edit/:id          controllers.TodoController.edit(id: Long)
-GET         /todos/remove/:id        controllers.TodoController.remove(id: Long)
+GET         /                                 controllers.HomeController.index()
+GET         /todos                            controllers.TodoController.index()
+GET         /todos/create                     controllers.TodoController.createForm()
+POST        /todos                            controllers.TodoController.create()
+GET         /todos/edit/:id                   controllers.TodoController.editForm(id: Long)
+POST        /todos/edit/:id                   controllers.TodoController.edit(id: Long)
+GET         /todos/remove/:id                 controllers.TodoController.remove(id: Long)
+GET         /todoCategories                   controllers.TodoCategoryController.index()
+GET         /todoCategories/crete             controllers.TodoCategoryController.createForm()
+POST        /todoCategories                   controllers.TodoCategoryController.create()
+GET         /todoCategories/edit/:id          controllers.TodoCategoryController.editForm(id: Long)
+POST        /todoCategories/edit/:id          controllers.TodoCategoryController.edit(id: Long)
+GET         /todoCategories/remove/:id        controllers.TodoCategoryController.remove(id: Long)
 
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file            controllers.Assets.versioned(path="/public", file: Asset)
+GET         /assets/*file                     controllers.Assets.versioned(path="/public", file: Asset)

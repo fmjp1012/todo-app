@@ -71,13 +71,13 @@ class TodoRepositoryImpl @Inject() ()(implicit val ec: ExecutionContext)
 
   def update(editedTodo: Todo#EmbeddedId): Future[Todo.Id] = {
     master.run(
-      todoTable.filter(_.id === editedTodo.v.id).update(editedTodo.v).map(Todo.Id(_))
+      todoTable.filter(_.id === editedTodo.id).update(editedTodo.v).map(Todo.Id(_))
     )
   }
 
   def delete(todo: Todo#EmbeddedId): Future[Todo.Id] = {
     master.run(
-      todoTable.filter(_.id === todo.v.id).delete.map(Todo.Id(_))
+      todoTable.filter(_.id === todo.id).delete.map(Todo.Id(_))
     )
   }
 }
