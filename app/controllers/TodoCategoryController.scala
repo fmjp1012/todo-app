@@ -70,6 +70,7 @@ class TodoCategoryController @Inject() (
         },
         todoCategoryEditingInput => {
           todoCategoryRepository.findById(TodoCategory.Id(id)) flatMap {
+            case None               => Future.successful(NotFound)
             case Some(todoCategory) =>
               val editedTodoCategory: TodoCategory#EmbeddedId = TodoCategory(
                 Some(todoCategory.id),
