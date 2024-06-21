@@ -4,7 +4,7 @@ import model.Todo
 import model.forms.TodoCreatingForm.todoCreatingForm
 import model.forms.TodoEditingForm.todoEditingForm
 import model.forms.TodoEditingInput
-import persistence.repository.impl.{TodoCategoryRepositoryImpl, TodoRepositoryImpl}
+import persistence.repository.{TodoCategoryRepository, TodoRepository}
 import play.api.mvc._
 
 import javax.inject._
@@ -14,8 +14,8 @@ import scala.concurrent.Future
 @Singleton
 class TodoController @Inject() (
   mcc:                    MessagesControllerComponents,
-  todoRepository:         TodoRepositoryImpl,
-  todoCategoryRepository: TodoCategoryRepositoryImpl
+  todoRepository:         TodoRepository,
+  todoCategoryRepository: TodoCategoryRepository
 ) extends MessagesAbstractController(mcc) {
 
   def index() = Action.async {
