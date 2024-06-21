@@ -1,0 +1,22 @@
+@import helper._
+@import model.{TodoCategory, ViewValueCommon}
+@import model.forms.TodoCategoryEditingInput
+@(
+        todoCategoryEditingForm: Form[TodoCategoryEditingInput],
+        todoCategory: TodoCategory#EmbeddedId
+)(implicit request: MessagesRequestHeader)
+
+@common.Default(ViewValueCommon(title = "TodoCategory更新", cssSrc = Seq("main.css"), jsSrc = Seq("main.js"))) {
+  @form(routes.TodoCategoryController.edit(todoCategory.id)) {
+    @CSRF.formField
+    @inputText(todoCategoryEditingForm("name"))
+    @inputText(todoCategoryEditingForm("slug"))
+    @select(
+      field = todoCategoryEditingForm("color"),
+      options = TodoCategory.Color.values.map(
+        color => color.code.toString -> color.code.toString
+      )
+    )
+    <input type="submit" value="更新する">
+  }
+}

@@ -15,8 +15,8 @@
         routes.Assets.versioned("stylesheets/" + css)
       }">
     }
-    <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
-  </head>
+      <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
+    </head>
   <body>
     @* And here's where we render the `Html` object containing
     * the page content. *@
@@ -25,8 +25,10 @@
   </header>
   <ul>
     <li><a href="/">Home</a></li>
-    <li><a href="/todos">Todo一覧</a></li>
-    <li><a href="/todos/create">Todo作成</a></li>
+    <li><a href="@routes.TodoController.index()">Todo一覧</a></li>
+    <li><a href="@routes.TodoController.createForm()">Todo作成</a></li>
+    <li><a href="@routes.TodoCategoryController.index()">Category一覧</a></li>
+    <li><a href="@routes.TodoCategoryController.createForm()">Category作成</a></li>
   </ul>
   <main class="main">
     <h1>@vv.title</h1>

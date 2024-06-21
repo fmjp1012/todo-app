@@ -6,12 +6,12 @@ import ixias.util.EnumStatus
 import java.time.LocalDateTime
 
 case class TodoCategory(
-    id:        Option[TodoCategory.Id],
-    name:      String,
-    slug:      String,
-    color:     TodoCategory.Color,
-    updatedAt: LocalDateTime = NOW,
-    createdAt: LocalDateTime = NOW
+  id:        Option[TodoCategory.Id],
+  name:      String,
+  slug:      String,
+  color:     TodoCategory.Color,
+  updatedAt: LocalDateTime = NOW,
+  createdAt: LocalDateTime = NOW
 ) extends EntityModel[TodoCategory.Id]
 
 object TodoCategory {
@@ -20,10 +20,10 @@ object TodoCategory {
   type WithNoId   = Entity.WithNoId[Id, TodoCategory]
   type EmbeddedId = Entity.EmbeddedId[Id, TodoCategory]
 
-  sealed abstract class Color(val code: Short) extends EnumStatus           {
+  sealed abstract class Color(val code: Short) extends EnumStatus {
     def toCssClass: String
   }
-  object Color                                 extends EnumStatus.Of[Color] {
+  object Color extends EnumStatus.Of[Color] {
     case object FRONTEND extends Color(code = 1) {
       override def toCssClass: String = "category-frontend"
     }
