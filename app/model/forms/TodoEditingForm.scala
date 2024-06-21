@@ -27,6 +27,14 @@ object TodoEditingForm {
     }
   }
 
+  val alphaNumericConstraint: Constraint[String] = Constraint("constraints.alphaNumericCheck") { string =>
+    if (!string.matches("[a-zA-Z0-9]+")) {
+      Invalid(ValidationError("英数字で入力する必要があります。"))
+    } else {
+      Valid
+    }
+  }
+
   val stateConstraint: Constraint[Short] = Constraint("constraints.stateCheck") { state =>
     Todo.Status.find(_.code == state) match {
       case None    => Invalid(ValidationError("Invalid state"))
@@ -37,7 +45,7 @@ object TodoEditingForm {
   val todoEditingForm: Form[TodoEditingInput] = Form(
     mapping(
       "categoryId" -> longNumber.transform(TodoCategory.Id(_), (id: TodoCategory.Id) => id),
-      "title"      -> nonEmptyText(maxLength = 30).verifying(titleConstraint),
+      "title"      -> nonEmptyText(maxLength = 30).verifying(titleConstraint, alphaNumericConstraint),
       "body"       -> nonEmptyText(maxLength = 140),
       "state"      -> shortNumber.verifying(stateConstraint).transform(Todo.Status(_), (state: Todo.Status) => state.code)
     )(TodoEditingInput.apply)(TodoEditingInput.unapply)

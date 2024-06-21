@@ -1,0 +1,22 @@
+@import helper._
+@import model.{TodoCategory, ViewValueCommon}
+@import model.forms.TodoCategoryCreatingInput
+@import model.forms.TodoCreatingForm.todoCreatingForm
+@(
+        todoCategoryCreatingForm: Form[TodoCategoryCreatingInput]
+)(implicit request: MessagesRequestHeader)
+
+@common.Default(ViewValueCommon(title = "TodoCategory作成", cssSrc = Seq("main.css"), jsSrc = Seq("main.js"))) {
+  @form(routes.TodoCategoryController.create()) {
+    @CSRF.formField
+    @inputText(todoCategoryCreatingForm("name"))
+    @inputText(todoCategoryCreatingForm("slug"))
+    @select(
+      field = todoCreatingForm("color"),
+      options = TodoCategory.Color.values.map(
+        color => color.code.toString -> color.code.toString
+      )
+    )
+    <input type="submit" value="作成する">
+  }
+}
