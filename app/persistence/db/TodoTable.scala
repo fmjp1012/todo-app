@@ -23,8 +23,6 @@ case class TodoTable(tag: Tag) extends Table[Todo](tag, "to_do") {
   /* @7 */
   def createdAt         = column[LocalDateTime]("created_at", Ts)
 
-  def todoCategory = foreignKey("category_fk", categoryId, todoCategoryTable)(_.id, onUpdate = ForeignKeyAction.Restrict, onDelete = ForeignKeyAction.Cascade)
-
   // DB <=> Scala の相互のmapping定義
   def * = (id.?, categoryId, title, body, state, updatedAt, createdAt) <> (
     (Todo.apply _).tupled,
